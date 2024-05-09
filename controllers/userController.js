@@ -15,7 +15,7 @@ class UserController {
     const { username, password } = req.body;
     const user = await User.findOne({ where: { username } });
     if (user) {
-      const token = user.generateToken(user);
+      const token = user.generateToken(user, password);
       if (token) {
         res.status(200).json({
           success: true,

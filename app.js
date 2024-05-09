@@ -9,7 +9,7 @@ const { initBookModel } = require('./models/book');
 const { initUserModel, User } = require('./models/user');
 const { initRoleModel, Role } = require('./models/role');
 // const indexRouter = require('./routes/index');
-// const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -19,8 +19,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.get('/', (req, res)=> {
+  return res.status(200).json({
+    success: true
+  })
+})
+app.use('/user', usersRouter);
 
 app.listen(3000, async () => {
   try {

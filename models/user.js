@@ -5,8 +5,8 @@ const authUtil = require('../util/authUtil');
 
 class User extends Model {
 
-  async generateToken(user) {
-    const isMatch = user.checkPassword(user.password);
+  async generateToken(user, password) {
+    const isMatch = user.checkPassword(password);
     if (isMatch) {
       const token = await authUtil.jwtSign({ id: user.id });
       return token;
