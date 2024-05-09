@@ -1,0 +1,125 @@
+swagger: '2.0'
+info:
+  title: Role API
+  version: 1.0.0
+basePath: /roles
+tags:
+  - name: Roles
+    description: Operations related to roles
+paths:
+  /roles:
+    post:
+      tags:
+        - Roles
+      summary: Create a new role
+      parameters:
+        - name: body
+          in: body
+          description: Role object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/RoleInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/RoleResponse'
+    get:
+      tags:
+        - Roles
+      summary: Get all roles
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/RoleListResponse'
+
+  /roles/{id}:
+    put:
+      tags:
+        - Roles
+      summary: Update an existing role by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the role to update
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: Updated role object
+          required: true
+          schema:
+            $ref: '#/definitions/RoleInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/RoleResponse'
+    delete:
+      tags:
+        - Roles
+      summary: Delete a role by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the role to delete
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/RoleResponse'
+    get:
+      tags:
+        - Roles
+      summary: Get a role by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the role to retrieve
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/RoleResponse'
+
+definitions:
+  RoleInput:
+    type: object
+    properties:
+      name:
+        type: string
+    required:
+      - name
+
+  RoleResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      role:
+        $ref: '#/definitions/Role'
+    
+  RoleListResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/Role'
+
+  Role:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string

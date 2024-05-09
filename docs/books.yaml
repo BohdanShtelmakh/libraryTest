@@ -1,0 +1,148 @@
+swagger: '2.0'
+info:
+  title: Book API
+  version: 1.0.0
+basePath: /books
+tags:
+  - name: Books
+    description: Operations related to books
+paths:
+  /books:
+    post:
+      tags:
+        - Books
+      summary: Create a new book
+      description: Requires admin privileges
+      parameters:
+        - name: body
+          in: body
+          description: Book object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/BookInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/BookResponse'
+    get:
+      tags:
+        - Books
+      summary: Get all books
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/BookListResponse'
+
+  /books/{id}:
+    put:
+      tags:
+        - Books
+      summary: Update an existing book by ID
+      description: Requires admin privileges
+      parameters:
+        - name: id
+          in: path
+          description: ID of the book to update
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: Updated book object
+          required: true
+          schema:
+            $ref: '#/definitions/BookInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/BookResponse'
+    delete:
+      tags:
+        - Books
+      summary: Delete a book by ID
+      description: Requires admin privileges
+      parameters:
+        - name: id
+          in: path
+          description: ID of the book to delete
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/BookResponse'
+    get:
+      tags:
+        - Books
+      summary: Get a book by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the book to retrieve
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/BookResponse'
+
+definitions:
+  BookInput:
+    type: object
+    properties:
+      title:
+        type: string
+      author:
+        type: string
+      year:
+        type: integer
+      genre:
+        type: string
+      description:
+        type: string
+    required:
+      - title
+      - author
+      - year
+      - genre
+      - description
+
+  BookResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      book:
+        $ref: '#/definitions/Book'
+    
+  BookListResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      books:
+        type: array
+        items:
+          $ref: '#/definitions/Book'
+
+  Book:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      author:
+        type: string
+      year:
+        type: integer
+      genre:
+        type: string
+      description:
+        type: string

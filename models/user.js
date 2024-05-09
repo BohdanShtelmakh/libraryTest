@@ -6,9 +6,9 @@ const authUtil = require('../util/authUtil');
 class User extends Model {
 
   async generateToken(user, password) {
-    const isMatch = user.checkPassword(password);
+    const isMatch = await user.checkPassword(password);
     if (isMatch) {
-      const token = await authUtil.jwtSign({ id: user.id });
+      const token = await authUtil.jwtSign({ id: user.id, role_id: user.role_id });
       return token;
     } else {
       return false;
@@ -18,6 +18,11 @@ class User extends Model {
   async checkToken(token) {
     const decoded = await authUtil.jwtCheck(token);
     return decoded;
+  }
+
+  async checkPassword(password) {
+    const isMatch = await authUtil.passwordCompare(password, this.password);
+    return isMatch;
   }
 }
 
@@ -43,6 +48,7 @@ function initUserModel() {
           if (isValid !== true) {
             throw new Error(isValid);
           }
+          return true;
         }
       }
     },
@@ -58,15 +64,6 @@ function initUserModel() {
           })
         },
       },
-      instanceMethods: {
-        checkPassword: async function (password) {
-          const isMatch = await authUtil.passwordCompare(password, this.password);
-          return isMatch;
-        }
-      },
-      // classMethods: {
-
-      // }
     }
   );
 }

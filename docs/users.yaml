@@ -1,0 +1,189 @@
+swagger: '2.0'
+info:
+  title: User API
+  version: 1.0.0
+basePath: /user
+tags:
+  - name: Users
+    description: Operations related to users
+paths:
+  /user/register:
+    post:
+      tags:
+        - Users
+      summary: Register a new user
+      parameters:
+        - name: body
+          in: body
+          description: User object containing username and password
+          required: true
+          schema:
+            $ref: '#/definitions/UserRegisterInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+  /user/login:
+    post:
+      tags:
+        - Users
+      summary: Log in an existing user
+      parameters:
+        - name: body
+          in: body
+          description: User object containing username and password
+          required: true
+          schema:
+            $ref: '#/definitions/UserLoginInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserLoginResponse'
+  /user:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      parameters:
+        - name: body
+          in: body
+          description: User object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/UserInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserListResponse'
+
+  /user/{id}:
+    put:
+      tags:
+        - Users
+      summary: Update an existing user by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to update
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: Updated user object
+          required: true
+          schema:
+            $ref: '#/definitions/UserInput'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to delete
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+    get:
+      tags:
+        - Users
+      summary: Get a user by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to retrieve
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+
+definitions:
+  UserRegisterInput:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
+
+  UserLoginInput:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
+
+  UserInput:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: integer
+    required:
+      - username
+      - password
+      - role_id
+
+  UserResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      user:
+        $ref: '#/definitions/User'
+
+  UserListResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      username:
+        type: string
+      role_id:
+        type: integer
