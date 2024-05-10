@@ -1,8 +1,8 @@
 const { Book } = require('../models/book');
 class BookController {
   async create(req, res) {
-    const { title, author, year, genre, description } = req.body;
-    const book = await Book.create({ title, author, year, genre, description });
+    const { title, author, year, genre } = req.body;
+    const book = await Book.create({ title, author, year, genre });
     res.status(200).json({
       success: true,
       book
@@ -11,8 +11,8 @@ class BookController {
 
   async update(req, res) {
     const { id } = req.params;
-    const { title, author, year, genre, description } = req.body;
-    const book = await Book.update({ title, author, year, genre, description }, { where: { id } });
+    const { title, author, year, genre } = req.body;
+    const book = await Book.update({ title, author, year, genre }, { where: { id } });
     res.status(200).json({
       success: true,
       book

@@ -31,7 +31,7 @@ function initBookModel() {
     {
       sequelize,
       modelName: 'Book',
-      tableName: 'books',
+      tableName: 'books', 
     }
   );
 }
