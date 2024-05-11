@@ -36,6 +36,7 @@ app.get('/', (req, res) => {
 app.use('/user', usersRouter);
 app.use('/books', authMiddleware, booksRouter);
 app.use('/roles', authMiddleware, adminMiddleware, rolesRouter);
+
 swagger(app)
 app.use(errorMiddleware);
 
